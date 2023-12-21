@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const App = () => {
   const [name, setName] = useState('');
@@ -8,43 +7,34 @@ const App = () => {
   const [email, setEmail] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [cityName, setCityName] = useState('');
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(JSON.parse(localStorage.getItem('links')) || []);
   const [selectedLinkId, setSelectedLinkId] = useState(null);
 
   useEffect(() => {
-    fetchLinks();
-  }, []);
+    // Save links to localStorage whenever it changes
+    localStorage.setItem('links', JSON.stringify(links));
+  }, [links]);
 
-  const fetchLinks = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/links');
-      setLinks(response.data);
-    } catch (error) {
-      console.error('Error fetching links:', error.message);
+  const handleSubmit = () => {
+    const newLink = {
+      id: Date.now(), // Using timestamp as a unique id for simplicity
+      name,
+      url,
+      email,
+      contact_number: contactNumber,
+      city_name: cityName
+    };
+
+    if (selectedLinkId) {
+      // Update existing link
+      const updatedLinks = links.map(link => (link.id === selectedLinkId ? newLink : link));
+      setLinks(updatedLinks);
+    } else {
+      // Add new link
+      setLinks([...links, newLink]);
     }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const data = {
-        name,
-        url,
-        email,
-        contact_number: contactNumber,
-        city_name: cityName
-      };
-
-      if (selectedLinkId) {
-        await axios.put(`http://localhost:5000/links/${selectedLinkId}`, data);
-      } else {
-        await axios.post('http://localhost:5000/links', data);
-      }
-      fetchLinks();
-      resetForm();
-      alert('Data sent successfully!');
-    } catch (error) {
-      console.error('Error submitting data:', error.message);
-    }
+    
+    resetForm();
   };
 
   const handleUpdate = (link) => {
@@ -56,14 +46,10 @@ const App = () => {
     setCityName(link.city_name || '');
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/links/${id}`);
-      fetchLinks();
-      resetForm();
-    } catch (error) {
-      console.error('Error deleting link:', error.message);
-    }
+  const handleDelete = (id) => {
+    const updatedLinks = links.filter(link => link.id !== id);
+    setLinks(updatedLinks);
+    resetForm();
   };
 
   const resetForm = () => {
@@ -77,9 +63,9 @@ const App = () => {
 
   return (
     <div className='flex items-center flex-col justify-center font-serif bg-blue-300'>
-      <h1 className='text-5xl p-5  text-white'> Student Data Form</h1>
+      <h1 className='text-5xl p-5 text-white'> Student Data Form</h1>
 
-       <ul>
+      <ul>
         {links.map((link) => (
           <li key={link.id}>
             {link.name} - {link.url}
@@ -88,6 +74,10 @@ const App = () => {
           </li>
         ))}
       </ul>
+
+
+
+
 
       <div className=''>
         <label>
@@ -123,6 +113,10 @@ const App = () => {
         <button className='px-5 py-2 bg-blue-400 rounded-md hover:bg-blue-600 text-white m-4'  onClick={handleSubmit}>Submit</button>
         <button className='px-5 py-2 bg-blue-400 rounded-md hover:bg-blue-600 text-white m-4' onClick={resetForm}>Cancel</button>
       </div>
+
+
+
+      {/* ... (rest of your form JSX remains unchanged) */}
     </div>
   );
 };
