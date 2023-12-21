@@ -79,7 +79,7 @@ const App = () => {
     <div className='flex items-center flex-col justify-center font-serif bg-blue-300'>
       <h1 className='text-5xl p-5  text-white'> Student Data Form</h1>
 
-      {/* <ul>
+       <ul>
         {links.map((link) => (
           <li key={link.id}>
             {link.name} - {link.url}
@@ -87,7 +87,7 @@ const App = () => {
             <button onClick={() => handleDelete(link.id)}>Delete</button>
           </li>
         ))}
-      </ul> */}
+      </ul>
 
       <div className=''>
         <label>
