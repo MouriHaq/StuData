@@ -76,10 +76,10 @@ const App = () => {
   };
 
   return (
-    <div className='m-5'>
-      <h1 className='text-5xl'>Form</h1>
+    <div className='flex items-center flex-col justify-center font-serif bg-blue-300'>
+      <h1 className='text-5xl p-5  text-white'> Student Data Form</h1>
 
-      <ul>
+      {/* <ul>
         {links.map((link) => (
           <li key={link.id}>
             {link.name} - {link.url}
@@ -87,41 +87,41 @@ const App = () => {
             <button onClick={() => handleDelete(link.id)}>Delete</button>
           </li>
         ))}
-      </ul>
+      </ul> */}
 
-      <div>
+      <div className=''>
         <label>
           Name:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input className='px-10 ml-1 py-3 rounded-lg m-4' type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </label>
       </div>
       <div>
         <label>
           URL:
-          <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
+          <input className=' px-10 py-3 rounded-lg m-4' type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
         </label>
       </div>
       <div>
         <label>
           Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input className='ml-1 px-10 py-3 rounded-lg m-4' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
       </div>
       <div>
         <label>
-          Contact Number:
-          <input type="tel" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
+          Contact:
+          <input className='ml-2 px-10 py-3 rounded-lg m-4' type="tel" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} />
         </label>
       </div>
       <div>
         <label>
-          City Name:
-          <input type="text" value={cityName} onChange={(e) => setCityName(e.target.value)} />
+          City:
+          <input className='px-10 py-3 rounded-lg m-4' type="text" value={cityName} onChange={(e) => setCityName(e.target.value)} />
         </label>
       </div>
       <div>
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={resetForm}>Cancel</button>
+        <button className='px-5 py-2 bg-blue-400 rounded-md hover:bg-blue-600 text-white m-4'  onClick={handleSubmit}>Submit</button>
+        <button className='px-5 py-2 bg-blue-400 rounded-md hover:bg-blue-600 text-white m-4' onClick={resetForm}>Cancel</button>
       </div>
     </div>
   );
