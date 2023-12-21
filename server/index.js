@@ -27,6 +27,32 @@ app.post("/links", async (req, res) => {
   }
 });
 
+
+// Get all links
+app.get("/links", async (req, res) => {
+  try {
+    const allLinks = await pool.query("SELECT * FROM links");
+    res.json(allLinks.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get a link
+app.get("/links/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const link = await pool.query("SELECT * FROM links WHERE id = $1", [id]);
+
+    res.json(link.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
